@@ -1,11 +1,42 @@
-<%= errors %>
-<form action="/submit-form" method="POST">
-    <label for="name">Name</label>
-    <input name="name" type="text" id="name">
-    <label for="email">Email</label>
-    <input name="email" type="text" id="email">
-    <label for="name">Message</label>
-    <textarea name="message"  id="message"></textarea>
+<script>
+  grecaptcha.ready(function() {
+      grecaptcha.execute('6LfJ5fEUAAAAAGMy-JGFN6ZFx5BjeuDPegTOH9su', {action: 'homepage'}).then(function(token) {
+        document.getElementById('reCAPTCHA').value = token
+      });
+  });
+</script>
+
+<div class="row">
+  <form class="col s12" action="/submit-form" method="POST">
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="name" type="text" class="validate" name="name" required>
+        <label for="name">Name</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="email" type="email" class="validate" name="email">
+        <label for="email">Email</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <textarea id="message" type="text" name="message"></textarea>
+        <label for="message">Message</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12"></div>
+        <label>
+          <input type="checkbox" class="filled-in" name="subscribe"/>
+          <span>Subscribe to newsletter</span>
+        </label>
+      </div>
+    </div>
+
+    <input type="text" name="reCAPTCHA" id="reCAPTCHA" required readonly hidden>
 
     <input class="btn" type="submit" value="Submit">
-</form>
+  </form>
+</div>

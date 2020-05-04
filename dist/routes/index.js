@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -16,20 +7,25 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const api_routes = __importStar(require("./admin"));
 const form = __importStar(require("../controllers/form"));
+const reCAPTCHA = __importStar(require("../controllers/reCAPTCHA"));
 exports.register = (app) => {
     // landing view
     app.get("/", (req, res) => {
-        res.render("index", { errors: [{ error: "Fuck you." }] });
+        res.render("index");
     });
-    app.post("/submit-form", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        form.submit(req.body)
+    app.post("/submit-form", (req, res) => {
+        // Validate user actions with Google reCAPTCHA
+        reCAPTCHA.validate(req.body.reCAPTCHA)
             .then(() => {
-            res.render("index");
+            form.submit(req.body)
+                .then(() => res.render("index", { alerts: [{ message: "Your message has been submitted.", code: 200 }] }))
+                .catch((err) => res.render("index", { errors: [{ message: err, code: 401 }] }));
         })
-            .catch((err) => {
-            console.log("error: ", err);
-        });
-    }));
+            .catch((err) => res.render("index", { errors: [{ message: err, code: 401 }] }));
+    });
+    // Register API routes
+    api_routes.register(app);
 };
 //# sourceMappingURL=index.js.map

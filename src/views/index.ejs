@@ -5,16 +5,35 @@
     <title>Terry's Tasty Treats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LfJ5fEUAAAAAGMy-JGFN6ZFx5BjeuDPegTOH9su"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
-<body>
+  <body>
     <div class="container">
-        <h1 class="header">Terry's Tasty Treats</h1>
-    </div>
-    <div class="row">
+      <h1 class="header">Terry's Tasty Treats</h1>
+
+      <% if (locals.errors) { %>
+        <% errors.forEach((error) => { %>
+          <div class="card-panel red lighten-2 white-text">
+            <%= error.message %>
+          </div>
+        <% }); %>
+      <% } %>
+
+      <% if (locals.alerts) { %>
+        <% alerts.forEach((alert) => { %>
+          <div class="card-panel teal lighten-2 white-text">
+            <%= alert.message %>
+          </div>
+        <% }); %>
+      <% } %>
+
+      <div class="row">
         <div class="col m6 offset-m3 s12">
-            <%- include ('partials/form.ejs') %>
+          <%- include ('partials/form.ejs') %>
         </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>

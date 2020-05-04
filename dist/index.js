@@ -26,11 +26,10 @@ app.use(body_parser_1.default.urlencoded({
     extended: true,
 }));
 app.use(body_parser_1.default.json());
+// Register custom routes
 routes.register(app);
 // start the Express server
 app.listen(port_address, () => {
-    const a_variable = "test";
-    console.log(a_variable);
     console.log(`server started at http://localhost:${port_address}`);
 });
 //# sourceMappingURL=index.js.map

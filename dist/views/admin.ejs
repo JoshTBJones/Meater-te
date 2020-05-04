@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Terry's Tasty Treats Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="header">Terry's Tasty Treats</h1>
+
+      <% if (locals.errors) { %>
+        <% errors.forEach((error) => { %>
+          <div class="card-panel red lighten-2 white-text">
+            <%= error.message %>
+          </div>
+        <% }); %>
+      <% } %>
+
+      <div class="row">
+        <table class="striped">
+          <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Message</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (locals.messages) { %>
+              <% messages.forEach((message) => { %>
+                <%- include ('partials/message.ejs', {message: message}) %>
+              <% }); %>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

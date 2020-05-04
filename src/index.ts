@@ -19,12 +19,12 @@ app.use(body_parser.urlencoded({
 }));
 app.use(body_parser.json());
 
+// Register custom routes
 routes.register(app);
+
 
 // start the Express server
 app.listen(port_address, () =>
 {
-  const a_variable = "test";
-  console.log(a_variable);
   console.log(`server started at http://localhost:${port_address}`);
 });

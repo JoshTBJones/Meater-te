@@ -1,24 +1,29 @@
 import * as express from "express";
+import * as api_routes from "./admin";
 import * as form from "../controllers/form";
+import * as reCAPTCHA from "../controllers/reCAPTCHA";
 
 export const register = (app: express.Application) =>
 {
   // landing view
-  app.get("/", (req: any, res) =>
+  app.get("/", (req: express.Request, res: express.Response) =>
   {
-    res.render("index", { errors: [{ error: "Fuck you." }] });
+    res.render("index");
   });
 
-  app.post("/submit-form", async (req: any, res) =>
+  app.post("/submit-form", (req: express.Request, res: express.Response) =>
   {
-    form.submit(req.body)
+    // Validate user actions with Google reCAPTCHA
+    reCAPTCHA.validate(req.body.reCAPTCHA)
       .then(() =>
       {
-        res.render("index");
+        form.submit(req.body)
+          .then(() => res.render("index", { alerts: [{ message: "Your message has been submitted.", code: 200 }] }))
+          .catch((err) => res.render("index", { errors: [{ message: err, code: 401 }] }));
       })
-      .catch((err) =>
-      {
-        console.log("error: ", err);
-      });
+      .catch((err) => res.render("index", { errors: [{ message: err, code: 401 }] }));
   });
+
+  // Register API routes
+  api_routes.register(app);
 };

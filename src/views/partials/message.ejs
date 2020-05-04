@@ -1,0 +1,17 @@
+<tr>
+  <td><b><%= message.id %></b></td>
+  <td><%= message.name %></td>
+  <td><%= message.email %></td>
+  <td><%= message.message %></td>
+  <td><%= new Date(message.created_at).toTimeString() %></td>
+  <td>
+    <form action="/admin/delete-message" method="POST">
+      <input type="hidden" value="<%= message.id %>" name="message_id">
+      <button class="waves-effect waves-light red btn" type="submit" title="Delete">
+        <i class="material-icons">
+          delete_forever
+        </i>
+      </button>
+    </form>
+  </td>
+</tr>
